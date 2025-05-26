@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relevant Deep Search</title>
+  <link rel="stylesheet" href="index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "marked": "https://esm.sh/marked@^15.0.8",
+    "@google/genai": "https://esm.sh/@google/genai?bundle"
+  }
+}
+</script>
+</head>
+<body>
+  <div class="container">
+    <header class="app-header">
+      <h1>Relevant Deep Search</h1>
+    </header>
+    <div class="search-input-area">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Enter your query (e.g., latest advancements in quantum computing)" aria-label="Search query">
+        <button id="searchButton">Search</button>
+      </div>
+
+      <div class="search-options-container">
+        <div class="search-type-toggle-group">
+          <span class="toggle-label">Search Mode:</span>
+          <span id="semanticLabel" class="toggle-option semantic active" data-value="semantic" role="button" tabindex="0" aria-pressed="true">Semantic</span>
+          <label class="switch" aria-hidden="true"> <!-- Hidden from screen readers as labels Semantic/Keyword control it -->
+            <input type="checkbox" id="searchTypeToggle" aria-labelledby="searchTypeHelp">
+            <span class="slider round"></span>
+          </label>
+          <span id="keywordLabel" class="toggle-option keyword" data-value="keyword" role="button" tabindex="0" aria-pressed="false">Keyword</span>
+          <p id="searchTypeHelp" class="sr-only">Toggle to switch between semantic search (focus on meaning and context) and keyword search (focus on exact terms). Current mode is Semantic.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="loadingIndicator" class="loading" style="display: none;" role="status" aria-live="polite">Loading...</div>
+    <div id="errorDisplay" class="error-message" style="display: none;" role="alert" aria-live="assertive"></div>
+
+    <div id="actionsContainer" class="actions-container" style="display: none;">
+      <button id="copyButton" class="action-button" disabled aria-label="Copy search results to clipboard">Copy All</button>
+      <button id="downloadMdButton" class="action-button" disabled aria-label="Download search results as a Markdown file">Download .MD</button>
+      <button id="downloadPdfButton" class="action-button" disabled aria-label="Open print dialog to save search results as a PDF">Download .PDF</button>
+    </div>
+
+    <div id="resultsContainer" style="display: none;">
+      <section aria-labelledby="overview-heading">
+        <h2 id="overview-heading">Overview</h2>
+        <div id="overviewContent" class="markdown-content"></div>
+      </section>
+
+      <section aria-labelledby="references-heading">
+        <h2 id="references-heading">References</h2>
+        <ul id="referencesList"></ul>
+      </section>
+
+      <div id="suggestionContainer" style="display: none;">
+        <section aria-labelledby="suggestion-heading">
+          <h2 id="suggestion-heading">Suggestion</h2>
+          <div id="suggestionContent" class="markdown-content"></div>
+        </section>
+      </div>
+
+      <div id="libraryContainer" style="display: none;">
+        <section aria-labelledby="library-heading">
+          <h2 id="library-heading">Library</h2>
+          <ul id="libraryList"></ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    LotusChain.org , 2023-<span id="currentYear"></span>
+  </footer>
+
+  <script type="module" src="index.tsx"></script></body>
+</html><link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>

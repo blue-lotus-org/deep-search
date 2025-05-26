@@ -1,0 +1,564 @@
+:root {
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --primary-text-color: #e0e0e0;
+  --secondary-text-color: #b0b0b0;
+  --accent-color-primary: #bb86fc; /* Purple */
+  --accent-color-secondary: #03dac6; /* Teal */
+  --accent-color-news: #ffd700; /* Gold for News */
+  --accent-color-blog: #90ee90; /* LightGreen for Blog */
+  --error-color-surface: #cf6679;
+  --error-color-text: #121212;
+  --border-color: #333;
+  --disabled-bg-color: #444;
+  --disabled-text-color: #777;
+  --link-color: var(--accent-color-primary);
+  --link-hover-color: var(--accent-color-secondary);
+  --button-action-bg: #3e3e3e;
+  --button-action-hover-bg: #505050;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 40px); /* Ensure footer can be at bottom */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--surface-color);
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Darker shadow for dark theme */
+  flex-grow: 1; /* Allow container to grow */
+}
+
+.app-header h1 {
+  color: var(--accent-color-primary);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #cfcfcf; /* Lighter grey for headings */
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+  margin-top: 30px;
+}
+
+.search-input-area {
+  margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px; /* Space before options */
+}
+
+#searchInput {
+  flex-grow: 1;
+  padding: 10px 15px;
+  background-color: #2c2c2c;
+  color: var(--primary-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+#searchInput:focus {
+  border-color: var(--accent-color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(187, 134, 252, 0.25);
+  outline: none;
+}
+
+#searchButton {
+  padding: 10px 20px;
+  background-color: var(--accent-color-primary);
+  color: var(--background-color); /* Dark text on light button */
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#searchButton:hover {
+  background-color: #a06cd5; /* Slightly darker purple */
+}
+
+#searchButton:disabled,
+.action-button:disabled {
+  background-color: var(--disabled-bg-color);
+  color: var(--disabled-text-color);
+  cursor: not-allowed;
+  border-color: var(--disabled-bg-color); /* Ensure border matches for action buttons */
+}
+
+/* Screen-reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.search-options-container {
+  display: flex;
+  justify-content: center;
+  /* margin-bottom: 20px; */ /* Removed to be part of search-input-area */
+  /* margin-top: -10px; */ /* Pull closer to search bar */
+}
+
+.search-type-toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background-color: #272727; /* Slightly different from input for distinction */
+  border-radius: 6px;
+}
+
+.toggle-label {
+  font-size: 0.85em;
+  color: var(--secondary-text-color);
+}
+
+.toggle-option {
+  font-size: 0.85em;
+  color: var(--secondary-text-color);
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: 4px;
+  transition: color 0.3s, background-color 0.3s;
+  user-select: none; /* Prevent text selection on click */
+}
+
+.toggle-option.active {
+  color: var(--background-color);
+  font-weight: bold;
+}
+.toggle-option.semantic.active {
+  background-color: var(--accent-color-primary);
+}
+.toggle-option.keyword.active {
+  background-color: var(--accent-color-secondary);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-color);
+  transition: .3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+}
+
+.slider.round {
+  border-radius: 22px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Default: Semantic (unchecked) */
+.switch input + .slider {
+  background-color: var(--accent-color-primary);
+}
+/* Checked: Keyword */
+.switch input:checked + .slider {
+  background-color: var(--accent-color-secondary);
+}
+
+.switch input:focus + .slider {
+  box-shadow: 0 0 0 2px var(--background-color), 0 0 0 4px var(--accent-color-primary);
+}
+.switch input:checked:focus + .slider {
+  box-shadow: 0 0 0 2px var(--background-color), 0 0 0 4px var(--accent-color-secondary);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(18px); /* 40 (width) - 16 (nob) - 3 (left) - 3 (gap) = 18 */
+}
+
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: var(--secondary-text-color);
+}
+
+.error-message {
+  background-color: var(--error-color-surface);
+  color: var(--error-color-text); /* Ensure contrast */
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #b00020; /* Darker red border */
+}
+
+.actions-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: flex-start; /* Or center, depending on preference */
+}
+
+.action-button {
+  padding: 8px 15px;
+  background-color: var(--button-action-bg);
+  color: var(--primary-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.action-button:not(:disabled):hover {
+  background-color: var(--button-action-hover-bg);
+  border-color: #555;
+}
+
+
+#resultsContainer,
+#suggestionContainer,
+#libraryContainer {
+  margin-top: 20px;
+}
+
+.markdown-content {
+  background-color: #2a2a2a; /* Slightly different surface for content blocks */
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 10px;
+}
+
+.markdown-content p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: #c5c5c5; /* Slightly lighter than main text for headers in content */
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+.markdown-content code {
+  background-color: var(--border-color); /* Darker than content bg */
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--primary-text-color);
+}
+
+.markdown-content pre {
+  background-color: var(--background-color); /* Use main background for code blocks */
+  color: #f8f8f2; /* Classic light text for code */
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+}
+
+.markdown-content pre code {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+}
+
+
+#referencesList,
+#libraryList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#referencesList li,
+#libraryList li {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #383838; /* Darker border for list items */
+  border-radius: 4px;
+  background-color: #252525; /* Slightly lighter than surface for items */
+}
+
+#referencesList a,
+#libraryList a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#referencesList a:hover,
+#libraryList a:hover {
+  text-decoration: underline;
+  color: var(--link-hover-color);
+}
+
+.reference-description {
+  font-size: 0.9em;
+  color: var(--secondary-text-color);
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.tag {
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-left: 5px;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.paper-tag {
+  color: var(--accent-color-secondary);
+  background-color: rgba(3, 218, 198, 0.1); /* Subtle background for tag */
+}
+
+.library-item-type {
+  /* General styling for library tags, specific colors below */
+}
+
+.library-item-type.paper-tag { /* Reuse paper-tag for consistency if type is Paper */
+  color: var(--accent-color-secondary);
+  background-color: rgba(3, 218, 198, 0.1);
+}
+.library-item-type.news-tag {
+  color: var(--accent-color-news);
+  background-color: rgba(255, 215, 0, 0.1);
+}
+.library-item-type.blog-tag {
+  color: var(--accent-color-blog);
+  background-color: rgba(144, 238, 144, 0.1);
+}
+.library-item-type.other-tag {
+  color: var(--secondary-text-color);
+  background-color: rgba(176, 176, 176, 0.1);
+}
+
+
+#suggestionContainer {
+  margin-top: 30px;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 20px 0;
+  margin-top: auto; /* Pushes footer to the bottom */
+  font-size: 0.9em;
+  color: var(--secondary-text-color);
+  border-top: 1px solid var(--border-color);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .search-container {
+    flex-direction: column;
+  }
+
+  #searchButton {
+    width: 100%;
+  }
+
+  .search-options-container {
+    margin-top: 10px; /* Ensure space after stacked search bar */
+  }
+  .search-type-toggle-group {
+    gap: 5px; /* Reduce gap on smaller screens */
+  }
+  .toggle-label, .toggle-option {
+    font-size: 0.8em;
+  }
+  
+  .actions-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .action-button {
+    width: 100%;
+    font-size: 0.95em; /* Slightly larger for touch on mobile */
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .app-header h1 {
+    font-size: 1.8em; /* Adjusted for dark theme readability */
+  }
+
+  body {
+    padding: 10px; /* Reduce padding on small screens */
+     min-height: calc(100vh - 20px);
+  }
+}
+
+/* Print-specific styles */
+@media print {
+  body {
+    background-color: #ffffff; /* White background for printing */
+    color: #000000; /* Black text for printing */
+    padding: 0;
+    margin: 0;
+    font-size: 12pt; /* Standard print font size */
+  }
+
+  .container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 20px; /* Add some padding for print layout */
+    box-shadow: none;
+    border-radius: 0;
+    background-color: #ffffff;
+  }
+
+  .app-header,
+  .search-input-area,
+  .search-options-container,
+  .actions-container,
+  .app-footer,
+  #loadingIndicator,
+  #errorDisplay,
+  .search-type-toggle-group,
+  #searchButton,
+  #searchInput,
+  .switch {
+    display: none !important; /* Hide all non-content elements */
+  }
+
+  #resultsContainer {
+    display: block !important; /* Ensure results are visible */
+    margin: 0;
+  }
+
+  h1, h2 {
+    color: #000000;
+    border-bottom: 1px solid #cccccc;
+    margin-top: 20px;
+    padding-bottom: 5px;
+  }
+  .app-header h1 { /* This should be hidden by .app-header, but to be safe */
+    display: none !important;
+  }
+  /* Explicitly show result titles */
+  #resultsContainer h2 {
+    display: block !important;
+  }
+
+
+  .markdown-content {
+    background-color: #f9f9f9; /* Light background for content blocks if desired, or transparent */
+    border: 1px solid #eeeeee;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .markdown-content,
+  .markdown-content p,
+  .markdown-content li {
+      color: #000000 !important; /* Ensure text is black */
+  }
+  .markdown-content pre,
+  .markdown-content code {
+    background-color: #f0f0f0;
+    color: #333333;
+    border: 1px solid #dddddd;
+  }
+
+
+  #referencesList li,
+  #libraryList li {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    padding: 8px;
+    margin-bottom: 10px;
+    page-break-inside: avoid; /* Try to keep list items on one page */
+  }
+
+  #referencesList a,
+  #libraryList a {
+    color: #0000ee; /* Standard blue for links in print */
+    text-decoration: underline;
+  }
+  .reference-description {
+    color: #333333;
+  }
+
+  .tag {
+    border: 1px solid #cccccc;
+    background-color: #f0f0f0;
+    color: #333333;
+  }
+  .paper-tag, .library-item-type.paper-tag {
+    color: #006400; /* Dark green */
+    background-color: #e6f0e6;
+  }
+  .library-item-type.news-tag {
+    color: #8B4513; /* SaddleBrown */
+    background-color: #f5e8dd;
+  }
+  .library-item-type.blog-tag {
+    color: #4682B4; /* SteelBlue */
+    background-color: #e0e8f0;
+  }
+
+  /* Remove unnecessary margins for print */
+  #overviewContent, #referencesList, #suggestionContent, #libraryList {
+    margin-top: 5px;
+  }
+}

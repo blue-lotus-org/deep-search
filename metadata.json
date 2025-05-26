@@ -1,0 +1,6 @@
+{
+  "name": "Relevant Deep Search",
+  "description": "An AI-powered search application using Google's Gemini API. It provides an overview, detailed references with descriptions, a follow-up suggestion, and a curated Library of relevant papers, news, and blogs for user queries.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
